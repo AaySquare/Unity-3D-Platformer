@@ -48,12 +48,10 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetKey(KeyCode.LeftShift))
         {
             moveSpeed = 15.0f;
-            print("Running");
         }
         else
         {
             moveSpeed = 10.0f;
-            print("Not Running");
         }
       
 
