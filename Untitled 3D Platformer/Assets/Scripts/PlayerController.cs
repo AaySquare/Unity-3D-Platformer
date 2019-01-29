@@ -45,6 +45,18 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            moveSpeed = 15.0f;
+            print("Running");
+        }
+        else
+        {
+            moveSpeed = 10.0f;
+            print("Not Running");
+        }
+      
+
         // Apply gravity
         movement.y = movement.y + (Physics.gravity.y * gravity * Time.deltaTime);
 
