@@ -80,8 +80,8 @@ GameObject:
   - component: {fileID: 1731848904}
   - component: {fileID: 1731848907}
   - component: {fileID: 1731848906}
-  - component: {fileID: 1731848908}
   - component: {fileID: 1731848909}
+  - component: {fileID: 2087864241}
   m_Layer: 0
   m_Name: Lantern
   m_TagString: Lantern
@@ -149,18 +149,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &1731848908
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1731848903}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f7be6066774b5344b953de1c00f6a34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!65 &1731848909
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -172,8 +160,20 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 24.420938, y: 6.844493, z: 25.297438}
-  m_Center: {x: -0.97846454, y: -0.41767403, z: 2.1084309}
+  m_Size: {x: 24.420938, y: 13.553815, z: 25.297438}
+  m_Center: {x: -0.97846454, y: 2.9369848, z: 2.1084309}
+--- !u!114 &2087864241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1731848903}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82b33894ccae8624f90285d1c442c386, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1028096140158812
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,10 +495,10 @@ GameObject:
   - component: {fileID: 23697078171012360}
   - component: {fileID: 54393671495190246}
   - component: {fileID: 143718437102309198}
-  - component: {fileID: 114365268441583594}
+  - component: {fileID: 1706727411662132792}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -612,7 +612,7 @@ CharacterController:
   m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114365268441583594
+--- !u!114 &1706727411662132792
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -625,8 +625,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
-  jumpSpeed: 13
-  gravity: 5
+  jumpForce: 8
+  gravity: 2.5
+  dashDistance: 50
+  dashSpeed: 6
+  pivot: {fileID: 0}
+  rotateSpeed: 15
   characterController: {fileID: 143718437102309198}
 --- !u!1 &1968610465168210
 GameObject:

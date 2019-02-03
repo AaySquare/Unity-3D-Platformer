@@ -101,8 +101,8 @@ public class PlayerController : MonoBehaviour {
         if(Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
             transform.rotation = Quaternion.Euler(0f, pivot.rotation.eulerAngles.y, 0f);
-            Quaternion newRotation = Quaternion.LookRotation(new Vector3(movement.x, 0f, movement.z));
-            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, rotateSpeed * Time.deltaTime);
+            /*Quaternion newRotation = Quaternion.LookRotation(new Vector3(movement.x, 0f, movement.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, rotateSpeed * Time.deltaTime);*/
         }
     }
 }
