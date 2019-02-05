@@ -12,12 +12,13 @@ public class ActivateLantern : MonoBehaviour
     {
         m_Collider = GetComponent<BoxCollider>();
         platform = GameObject.FindWithTag("Hidden Platform");
+        platform.GetComponent<MeshRenderer>().enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("Fire1"))
         {
             //Toggle the Collider on and off when pressing the L key
             m_Collider.enabled = !m_Collider.enabled;

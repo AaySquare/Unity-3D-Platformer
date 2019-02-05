@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
-    public AiController ai;
+    public AiController aiController;
     bool spawnAndChase = false;
     public int disappearTime = 5;
 
@@ -19,7 +19,7 @@ public class EnemySpawn : MonoBehaviour
     {
         if(spawnAndChase == true)
         {
-            ai.ChasePlayer();
+            aiController.ChasePlayer();
         }
     }
 
@@ -38,7 +38,7 @@ public class EnemySpawn : MonoBehaviour
             spawnAndChase = false;
         }
 
-        if (ai.gameObject.activeInHierarchy == true)
+        if (aiController.gameObject.activeInHierarchy == true)
         {
             StartCoroutine(Disappear());
         }
@@ -47,6 +47,6 @@ public class EnemySpawn : MonoBehaviour
     IEnumerator Disappear()
     {
         yield return new WaitForSeconds(disappearTime);
-        ai.gameObject.SetActive(false);
+        aiController.gameObject.SetActive(false);
     }
 }

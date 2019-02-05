@@ -5,16 +5,17 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     //Movement
-    public float moveSpeed = 10.0f;
+    public float moveSpeed;
+    private float normalSpeed;
     public float jumpForce = 8.0f;
     public float gravity = 2.5f;
 
     //Dash
     public const float maxDashTime = 1.0f;
-    public float dashDistance = 10;
+    public float dashDistance;
     private float dashStoppingSpeed = 0.1f;
     float currentDashTime = maxDashTime;
-    public float dashSpeed = 6;
+    public float dashSpeed;
 
     private Vector3 movement;
     private Vector3 dashDirection;
@@ -22,8 +23,8 @@ public class PlayerController : MonoBehaviour {
     private bool doubleJump;
     bool dashing = false;
 
-    public Transform pivot;
-    public float rotateSpeed;
+    /*public Transform pivot;
+    public float rotateSpeed;*/
 
     public CharacterController characterController;
 
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour {
     void Start ()
     {
         characterController = GetComponent<CharacterController>();
+        normalSpeed = moveSpeed;
     }
 
     // Update is called once per frame
@@ -60,16 +62,16 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetButton("Run"))
         {
-            moveSpeed = 15.0f;
+            moveSpeed = normalSpeed + 5;
         }
         else
         {
-            moveSpeed = 10.0f;
+            moveSpeed = normalSpeed;
         }
 
-        if (Input.GetButtonDown("Fire1") && dashing == false) //Left mouse button
+        if (Input.GetButtonDown("Fire3") && dashing == false) //Left mouse button
         {
             currentDashTime = 0;
         }
@@ -84,7 +86,6 @@ public class PlayerController : MonoBehaviour {
             dashDirection = Vector3.zero;
         }
 
-
         // Apply gravity
         movement.y = movement.y + (Physics.gravity.y * gravity * Time.deltaTime);
 
@@ -93,16 +94,16 @@ public class PlayerController : MonoBehaviour {
 
         if (dashing == true)
         {
-            characterController.Move(dashDirection * Time.deltaTime);
+            characterController.Move(dashDirection * Time.deltaTime * dashSpeed);
             dashing = false;
 
         }
 
-        if(Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+       /* if(Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
         {
             transform.rotation = Quaternion.Euler(0f, pivot.rotation.eulerAngles.y, 0f);
-            /*Quaternion newRotation = Quaternion.LookRotation(new Vector3(movement.x, 0f, movement.z));
-            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, rotateSpeed * Time.deltaTime);*/
-        }
+            Quaternion newRotation = Quaternion.LookRotation(new Vector3(movement.x, 0f, movement.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, rotateSpeed * Time.deltaTime);
+        }*/
     }
 }
