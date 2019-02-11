@@ -8,8 +8,10 @@ public class characterController : MonoBehaviour
     bool doubleJumpOK = false;
 
     public float jumpStrength;
+    public float dashStrength;
     public float moveSpeed;
     public float turnSpeed;
+    public float interpolation;
 
     Collider coll;
     Rigidbody rb;
@@ -22,19 +24,17 @@ public class characterController : MonoBehaviour
     private float crntHoriM;
     private float crntVertM;
 
-    public float interpolation;
-
     Vector3 direction;
     float directionLength;
 
     Vector3 crntDirection;
 
-    public GameObject rotator;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        //Grab the components we need
         camTransform = Camera.main.transform;
         coll = GetComponent<CapsuleCollider>();
         rb = GetComponent<Rigidbody>();
@@ -45,31 +45,28 @@ public class characterController : MonoBehaviour
     void Update()
     {
         #region flat Movement
-        vertInput = Input.GetAxis("Vertical");
+        vertInput = Input.GetAxis("Vertical"); //Save our Inputs
         horiInput = Input.GetAxis("Horizontal");
 
-        crntVertM = Mathf.Lerp(crntVertM, vertInput, Time.deltaTime * interpolation);
+        crntVertM = Mathf.Lerp(crntVertM, vertInput, Time.deltaTime * interpolation); //technically we're lerping twice unless we use GetAxisRaw, but this kinda feels good
         crntHoriM = Mathf.Lerp(crntHoriM, horiInput, Time.deltaTime * interpolation);
 
 
-        direction = camTransform.forward * crntVertM + camTransform.right * crntHoriM;
+        direction = camTransform.forward * crntVertM + camTransform.right * crntHoriM; //set direction based on camera as well
         directionLength = direction.magnitude;
         direction.y = 0;
         direction = direction.normalized * directionLength;
 
-        Vector3 localRot = new Vector3(rotator.transform.position.x, this.transform.position.y, rotator.transform.position.z);
-        rb.transform.LookAt(localRot);
 
+        Debug.DrawRay(transform.position, direction * 3, Color.green); //Current direction
         if (direction != Vector3.zero) {
 
             crntDirection = Vector3.Slerp(crntDirection, direction, Time.deltaTime * interpolation);
             crntDirection.y = 0;
-            transform.position += crntDirection * moveSpeed * Time.deltaTime;
-
-
-            //rb.transform.rotation = Quaternion.Euler(0, transform.rotation.y, 0);
-            
-            
+            transform.position += crntDirection * moveSpeed * Time.deltaTime; //the actual moving
+            Quaternion oldRot = transform.rotation;
+            transform.rotation = Quaternion.Lerp(oldRot, Quaternion.LookRotation(direction), Time.deltaTime * turnSpeed); //Rotating character towards direction of travel. Lerp stops it snapping
+           
         }
 
         #endregion
@@ -77,20 +74,26 @@ public class characterController : MonoBehaviour
 
 
         #region Jumps
-        //checkGrounding();
         if (Input.GetKeyDown(KeyCode.Space)){
-            
-            if (onGround == true) {
-                rb.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
-                doubleJumpOK = true;
-            }
-            if (onGround == false && doubleJumpOK == true) {
-                rb.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
+
+
+            if (onGround == false && doubleJumpOK == true)
+            {
+                Vector3 crntVelo = rb.velocity;
+                crntVelo.y = 0;
+                rb.velocity = Vector3.zero; //Important to zero out the velocity first. Addforce will otherwise be deducted from the downwards velocity
+                rb.AddForce(Vector3.up * jumpStrength, ForceMode.VelocityChange);
                 doubleJumpOK = false;
             }
+            if (onGround == true) {
+                rb.AddForce(Vector3.up * jumpStrength, ForceMode.VelocityChange);
+                doubleJumpOK = true;
+                onGround = false;
+            }
+            
         }
         if (Input.GetKeyDown(KeyCode.Mouse1)) {
-            rb.AddForce(new Vector3(0,0, transform.localPosition.z)  * jumpStrength, ForceMode.Impulse);
+            rb.AddForce(new Vector3(0,0, transform.localPosition.z)  * dashStrength, ForceMode.Impulse);
         }
     }
     #endregion
@@ -98,10 +101,14 @@ public class characterController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         ContactPoint conP = collision.GetContact(0);
-        if (Vector3.Dot(conP.normal, Vector3.up) > 0.5f) {
+        if (Vector3.Dot(conP.normal, Vector3.up) > 0.5f) //will not work on some surfaces, harsh angles should be avoided on platforms
+        {
             onGround = true;
             doubleJumpOK = false;
-            Debug.Log("grounded");
+        }
+        else {
+            onGround = false;
+            doubleJumpOK = true;
         }
     }
 }
