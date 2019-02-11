@@ -56,15 +56,14 @@ public class characterController : MonoBehaviour
         directionLength = direction.magnitude;
         direction.y = 0;
         direction = direction.normalized * directionLength;
+        Quaternion oldRot = transform.rotation;
 
-
-        Debug.DrawRay(transform.position, direction * 3, Color.green); //Current direction
+        Debug.DrawRay(transform.position, transform.localPosition * 3, Color.green); //Current direction
         if (direction != Vector3.zero) {
 
             crntDirection = Vector3.Slerp(crntDirection, direction, Time.deltaTime * interpolation);
             crntDirection.y = 0;
             transform.position += crntDirection * moveSpeed * Time.deltaTime; //the actual moving
-            Quaternion oldRot = transform.rotation;
             transform.rotation = Quaternion.Lerp(oldRot, Quaternion.LookRotation(direction), Time.deltaTime * turnSpeed); //Rotating character towards direction of travel. Lerp stops it snapping
            
         }
@@ -93,7 +92,8 @@ public class characterController : MonoBehaviour
             
         }
         if (Input.GetKeyDown(KeyCode.Mouse1)) {
-            rb.AddForce(new Vector3(0,0, transform.localPosition.z)  * dashStrength, ForceMode.Impulse);
+
+            rb.AddRelativeForce(new Vector3(0,0.25f,1) * dashStrength, ForceMode.VelocityChange);
         }
     }
     #endregion
