@@ -6,6 +6,7 @@ public class characterController : MonoBehaviour
 {
     bool onGround = false;
     bool doubleJumpOK = false;
+    bool dashOK = true;
 
     public float jumpStrength;
     public float dashStrength;
@@ -92,8 +93,11 @@ public class characterController : MonoBehaviour
             
         }
         if (Input.GetKeyDown(KeyCode.Mouse1)) {
-
-            rb.AddRelativeForce(new Vector3(0,0.25f,1) * dashStrength, ForceMode.VelocityChange);
+            if (onGround == false && dashOK == true)
+            {
+                rb.AddRelativeForce(new Vector3(0, 0.25f, 1) * dashStrength, ForceMode.VelocityChange);
+                dashOK = false;
+            }
         }
     }
     #endregion
@@ -101,10 +105,11 @@ public class characterController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         ContactPoint conP = collision.GetContact(0);
-        if (Vector3.Dot(conP.normal, Vector3.up) > 0.5f) //will not work on some surfaces, harsh angles should be avoided on platforms
+        if (Vector3.Dot(conP.normal, Vector3.up) > 0.5f)
         {
             onGround = true;
             doubleJumpOK = false;
+            dashOK = true;
         }
         else {
             onGround = false;
