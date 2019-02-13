@@ -74,7 +74,7 @@ public class characterController : MonoBehaviour
 
 
         #region Jumps
-        if (Input.GetKeyDown(KeyCode.Space)){
+        if (Input.GetButtonDown("Jump")){
 
 
             if (onGround == false && doubleJumpOK == true)
@@ -92,7 +92,7 @@ public class characterController : MonoBehaviour
             }
             
         }
-        if (Input.GetKeyDown(KeyCode.Mouse1)) {
+        if (Input.GetButtonDown("Fire1")) {
             if (onGround == false && dashOK == true)
             {
                 rb.AddRelativeForce(new Vector3(0, 0.25f, 1) * dashStrength, ForceMode.VelocityChange);

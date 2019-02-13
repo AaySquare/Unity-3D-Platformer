@@ -23,6 +23,7 @@ public class cameraScript : MonoBehaviour
         this.transform.RotateAround(player.transform.position, Vector3.up, Input.GetAxis("Mouse X"));
 
         //transform.localPosition = player.transform.localPosition + offset;*/
+
         offset = Quaternion.AngleAxis(Input.GetAxis("Mouse X"), Vector3.up) * offset;
         transform.position = player.transform.position + offset;
         Vector3 rotTarget = player.transform.position;

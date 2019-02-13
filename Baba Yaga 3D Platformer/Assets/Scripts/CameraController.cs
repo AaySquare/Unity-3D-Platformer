@@ -4,39 +4,51 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
-    public Transform target;
-    public Vector3 offset;
+    public GameObject player;
 
-    public float rotateSpeed;
+    [Tooltip("Sets the speed at which the camera follows the player")]
+    public float CameraFollowSpeed = 100.0f;
+    [Tooltip("Clamps the camera's vertical rotation between specfied angle")]
+    public float clampAngle = 30.0f;
+    [Tooltip("Sets the sensitivity of the camera movement")]
+    public float inputSensitivity = 150.0f;
 
-    public Transform pivot;
+    float mouseX;
+    float mouseY;
+    float rotationY = 0.0f;
+    float rotationX = 0.0f;
 
+    // Use this for initialization
     void Start()
     {
-        pivot.transform.position = target.transform.position;
-        pivot.transform.parent = target.transform;
-        //pivot.transform.parent = null;
+        Vector3 rotation = transform.localRotation.eulerAngles;
+        rotationY = rotation.y;
+        rotationX = rotation.x;
 
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
-    // Update is called once per frame
-    void LateUpdate ()
+    void LateUpdate()
     {
-        //pivot.transform.position = target.transform.position;
+        UpdateCamera();
+    }
 
-        float horizontal = Input.GetAxis("Mouse X") * rotateSpeed;
-        target.Rotate(0, horizontal, 0);
+    void UpdateCamera()
+    {
+        mouseX = Input.GetAxis("Mouse X"); 
+        mouseY = Input.GetAxis("Mouse Y");
 
-       /* float vertical = Input.GetAxis("Mouse Y") * rotateSpeed;
-        pivot.Rotate(-vertical, 0, 0);*/
+        rotationY += mouseX * inputSensitivity * Time.deltaTime;
+        rotationX += mouseY * inputSensitivity * Time.deltaTime;
 
-        float desiredYAngle = target.eulerAngles.y;
-        //float desiredXAngle = pivot.eulerAngles.x;
+        rotationX = Mathf.Clamp(rotationX, -clampAngle, clampAngle);
 
-        Quaternion rotation = Quaternion.Euler(0, desiredYAngle, 0);
-        transform.position = target.position + (rotation * offset);
+        transform.rotation = Quaternion.Euler(rotationX, rotationY, 0.0f);
 
-        transform.LookAt(target.position);
+        Transform target = player.transform;
+        float move = CameraFollowSpeed * Time.deltaTime;
+
+        transform.position = Vector3.MoveTowards(transform.position, target.position, move);
     }
 }

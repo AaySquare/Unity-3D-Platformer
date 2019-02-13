@@ -12,15 +12,15 @@ public class ActivateLantern : MonoBehaviour
     {
         m_Collider = GetComponent<BoxCollider>();
         platform = GameObject.FindWithTag("Hidden Platform");
-        platform.GetComponent<MeshRenderer>().enabled = false;
+        platform.transform.GetChild(0).gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("Fire1"))
+        if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("Fire3"))
         {
-            //Toggle the Collider on and off when pressing the L key
+            //Toggle the lantern on and off when pressing the L key
             m_Collider.enabled = !m_Collider.enabled;
 
             if (m_Collider.enabled)
@@ -33,18 +33,20 @@ public class ActivateLantern : MonoBehaviour
             }
         }
 
+        //If lantern is off, deactivate platform
         if(!transform.GetChild(0).gameObject.activeInHierarchy)
         {
-            platform.GetComponent<MeshRenderer>().enabled = false;
+            platform.transform.GetChild(0).gameObject.SetActive(false);
         }
 
     }
 
+    //If lantern's collider collides with platform's collider, activate platform
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Hidden Platform")
         {
-            other.gameObject.GetComponent<MeshRenderer>().enabled = true;
+            other.transform.GetChild(0).gameObject.SetActive(true);
         }
     }
 }
