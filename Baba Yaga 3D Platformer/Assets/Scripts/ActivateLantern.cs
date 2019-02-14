@@ -5,6 +5,7 @@ using UnityEngine;
 public class ActivateLantern : MonoBehaviour
 {
     Collider m_Collider;
+    Renderer m_renderer;
     GameObject platform;
 
     // Start is called before the first frame update
