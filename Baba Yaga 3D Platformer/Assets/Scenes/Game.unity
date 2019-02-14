@@ -10951,9 +10951,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2062069733}
-  CameraFollowSpeed: 100
+  CameraFollowSpeed: 200
   clampAngle: 30
   inputSensitivity: 150
+  lerpSpeed: 20
+  lerpRotation: 1
 --- !u!4 &1336560674
 Transform:
   m_ObjectHideFlags: 0

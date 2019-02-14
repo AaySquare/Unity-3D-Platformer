@@ -12,11 +12,17 @@ public class CameraController : MonoBehaviour {
     public float clampAngle = 30.0f;
     [Tooltip("Sets the sensitivity of the camera movement")]
     public float inputSensitivity = 150.0f;
+    [Tooltip("Sets the rotation smoothing speed")]
+    public float lerpSpeed = 20f;
+    [Tooltip("Use rotation smoothing?")]
+    public bool lerpRotation = false;
 
     float mouseX;
     float mouseY;
     float rotationY = 0.0f;
     float rotationX = 0.0f;
+
+    
 
     // Use this for initialization
     void Start()
@@ -36,6 +42,8 @@ public class CameraController : MonoBehaviour {
 
     void UpdateCamera()
     {
+        Quaternion oldRot = transform.rotation;
+
         mouseX = Input.GetAxis("Mouse X"); 
         mouseY = Input.GetAxis("Mouse Y");
 
@@ -44,7 +52,11 @@ public class CameraController : MonoBehaviour {
 
         rotationX = Mathf.Clamp(rotationX, -clampAngle, clampAngle);
 
-        transform.rotation = Quaternion.Euler(rotationX, rotationY, 0.0f);
+
+        if(lerpRotation)
+            transform.rotation = Quaternion.Lerp(oldRot, Quaternion.Euler(rotationX, rotationY, 0.0f), Time.deltaTime * lerpSpeed);
+        if(!lerpRotation)
+            transform.rotation = Quaternion.Euler(rotationX, rotationY, 0.0f);
 
         Transform target = player.transform;
         float move = CameraFollowSpeed * Time.deltaTime;
