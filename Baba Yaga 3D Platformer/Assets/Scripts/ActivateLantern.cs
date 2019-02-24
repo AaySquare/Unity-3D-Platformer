@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ActivateLantern : MonoBehaviour
 {
-
     Collider lanternCollider;
     GameObject platform;
     Renderer platformRenderer;
@@ -31,11 +30,11 @@ public class ActivateLantern : MonoBehaviour
 
             if (lanternCollider.enabled)
             {
-                transform.GetChild(0).gameObject.SetActive(true);
+                transform.GetChild(0).gameObject.GetComponent<Light>().enabled = true;
             }
             else if (!lanternCollider.enabled)
             {
-                transform.GetChild(0).gameObject.SetActive(false);
+                transform.GetChild(0).gameObject.GetComponent<Light>().enabled = false;
             }
         }
 
