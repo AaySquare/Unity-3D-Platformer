@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class ActivateLantern : MonoBehaviour
 {
-    Collider m_Collider;
+    Collider lanternCollider;
     GameObject platform;
+    Renderer platformRenderer;
+    Collider platformCollider;
 
     // Start is called before the first frame update
     void Start()
     {
-        m_Collider = GetComponent<BoxCollider>();
+        lanternCollider = GetComponent<BoxCollider>();
         platform = GameObject.FindWithTag("Hidden Platform");
-        platform.transform.GetChild(0).gameObject.SetActive(false);
+        platformRenderer = platform.transform.GetChild(0).gameObject.GetComponent<Renderer>();
+        platformCollider = platform.transform.GetChild(0).gameObject.GetComponent<Collider>();
+        platformRenderer.enabled = false;
+        platformCollider.enabled = false;
     }
 
     // Update is called once per frame
@@ -21,22 +26,23 @@ public class ActivateLantern : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("Fire3"))
         {
             //Toggle the lantern on and off when pressing the L key
-            m_Collider.enabled = !m_Collider.enabled;
+            lanternCollider.enabled = !lanternCollider.enabled;
 
-            if (m_Collider.enabled)
+            if (lanternCollider.enabled)
             {
                 transform.GetChild(0).gameObject.SetActive(true);
             }
-            else if (!m_Collider.enabled)
+            else if (!lanternCollider.enabled)
             {
                 transform.GetChild(0).gameObject.SetActive(false);
             }
         }
 
         //If lantern is off, deactivate platform
-        if(!transform.GetChild(0).gameObject.activeInHierarchy)
+        if (!transform.GetChild(0).gameObject.activeInHierarchy)
         {
-            platform.transform.GetChild(0).gameObject.SetActive(false);
+            platformRenderer.enabled = false;
+            platformCollider.enabled = false;
         }
 
     }
@@ -46,7 +52,8 @@ public class ActivateLantern : MonoBehaviour
     {
         if (other.tag == "Hidden Platform")
         {
-            other.transform.GetChild(0).gameObject.SetActive(true);
+            platformRenderer.enabled = true;
+            platformCollider.enabled = true;
         }
     }
 }
