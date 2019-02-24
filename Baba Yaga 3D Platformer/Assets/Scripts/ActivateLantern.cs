@@ -39,7 +39,7 @@ public class ActivateLantern : MonoBehaviour
         }
 
         //If lantern is off, deactivate platform
-        if (!transform.GetChild(0).gameObject.activeInHierarchy)
+        if (!transform.GetChild(0).gameObject.GetComponent<Light>().enabled)
         {
             platformRenderer.enabled = false;
             platformCollider.enabled = false;

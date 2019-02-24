@@ -9835,7 +9835,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minDistane: 3
   maxDistance: 6
-  smooth: 10
+  smooth: 50
 --- !u!4 &1135258149 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400000, guid: bf238e119c9c36f4b8abcd6e9637f0d9,
@@ -10954,8 +10954,6 @@ MonoBehaviour:
   CameraFollowSpeed: 200
   clampAngle: 30
   inputSensitivity: 150
-  lerpSpeed: 20
-  lerpRotation: 1
 --- !u!4 &1336560674
 Transform:
   m_ObjectHideFlags: 0
@@ -13103,6 +13101,14 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Constraints
       value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 1550469208, guid: 73291b58ee7c82f49b41d97bdc3d8490, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1550469209, guid: 73291b58ee7c82f49b41d97bdc3d8490, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73291b58ee7c82f49b41d97bdc3d8490, type: 3}

@@ -28,7 +28,7 @@ public class AiController : MonoBehaviour
 
     public void ChasePlayer()
     {
-        if (lantern.transform.GetChild(0).gameObject.activeInHierarchy)
+        if (lantern.transform.GetChild(0).gameObject.GetComponent<Light>().enabled)
         {
             gameObject.SetActive(true);
             nav.SetDestination(player.position);
