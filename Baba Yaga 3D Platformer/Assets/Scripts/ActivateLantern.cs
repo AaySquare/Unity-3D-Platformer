@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ActivateLantern : MonoBehaviour
 {
+
     Collider lanternCollider;
     GameObject platform;
     Renderer platformRenderer;
