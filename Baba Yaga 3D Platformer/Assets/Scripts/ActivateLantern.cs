@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class ActivateLantern : MonoBehaviour
 {
+<<<<<<< HEAD
     Collider lanternCollider;
+=======
+    Collider m_Collider;
+>>>>>>> parent of 3fb7863... added exactly one like of code which does nothing
     GameObject platform;
     Renderer platformRenderer;
     Collider platformCollider;
